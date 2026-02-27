@@ -1,0 +1,34 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32, // Replaces height = 24pt
+    "spacing": 4,
+    "modules-left": ["niri/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["cpu", "memory", "pulseaudio", "disk", "custom/weather"],
+    
+    "niri/workspaces": {
+        "format": "{name}"
+    },
+    "clock": {
+        "format": "{:%a %d/%m %H:%M}", // Matches your time format
+        "tooltip": false
+    },
+    "cpu": {
+        "format": "CPU {usage}%" // Matches your CPU prefix
+    },
+    "memory": {
+        "format": "RAM {}%" // Matches your RAM prefix
+    },
+    "pulseaudio": {
+        "format": "VOL {volume}%", // Matches your volume label
+        "format-muted": "muted", //
+        "on-click-right": "pavucontrol" //
+    },
+    "disk": {
+        "format": "󰋊 root: {free}", // Matches disk label
+        "path": "/"
+    },
+}
+
+

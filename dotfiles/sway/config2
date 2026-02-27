@@ -1,0 +1,146 @@
+# set modifier keys
+set $super Mod4
+set $alt Mod1
+
+# set font 
+font pango:Courier Prime 9
+
+# use mouse + $super to drag floating windows
+floating_modifier $super
+
+# --- STARTUP & WAYLAND SPECIFICS ---
+
+# Background (Replaces hsetroot)
+output * bg ~/wp5716349.jpg fill
+
+# Displays (Replaces xrandr)
+# Note: Sway uses coordinates. Replace '1920' with the actual resolution width of VGA-1.
+output VGA-1 pos 0 0
+output LVDS-1 pos 1920 0 
+
+# Start your status bar (Polybar is X11-only, Waybar is the standard Sway alternative)
+# exec_always --no-startup-id ~/.config/waybar/launch.sh 
+
+exec --no-startup-id pipewire
+exec --no-startup-id /usr/lib/gvfs/gvfsd
+
+# Start the Polkit agent (Allows Thunar to mount drives)
+exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1 &
+
+# Ensure GVFS is ready to talk to Thunar
+exec --no-startup-id gvfsd &
+
+# start a terminal
+bindsym $super+Return exec kitty
+
+# start dmenu (a program launcher)
+# Note: You may need to install 'rofi-wayland' or use 'wofi' instead.
+bindsym $super+d exec --no-startup-id rofi -show drun 
+
+# common apps keybinds
+# Screenshot (Replaces scrot with grim)
+bindsym Print exec grim 'Cheese_%a-%d%b%y_%H.%M.png' && xdg-open 'Cheese_%a-%d%b%y_%H.%M.png'
+
+# Lockscreen (Replaces i3lock with swaylock)
+bindsym $super+l exec swaylock -i ~/.lock.png
+bindsym $super+w exec firefox
+bindsym $super+e exec kitty ranger
+bindsym $super+m exec kitty ncmpcpp
+bindsym $super+n exec mpv --player-operation-mode=pseudo-gui
+
+# change volume and brightness
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# kill focused window
+bindsym $super+c kill
+bindsym $alt+F4 kill
+
+# change focus
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+# move focused window
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+# split in horizontal or vertical orientation
+bindsym $super+h split h
+bindsym $super+v split v
+
+# toggle split orientation
+bindsym $super+s layout toggle split
+
+# fullscreen
+bindsym $super+f fullscreen toggle
+
+# toggle floating
+bindsym $super+space floating toggle
+
+# toggle focus mode between tiling and floating
+bindsym $super+Shift+space focus mode_toggle
+
+# switch to workspace
+bindsym $super+Control+Right workspace next
+bindsym $super+Control+Left workspace prev
+bindsym $super+1 workspace 1:I
+bindsym $super+2 workspace 2:II
+bindsym $super+3 workspace 3:III
+bindsym $super+4 workspace 4:IV
+bindsym $super+5 workspace 5:V
+bindsym $super+6 workspace 6:VI
+
+# move focused container to workspace
+bindsym $super+Shift+1 move container to workspace 1:I
+bindsym $super+Shift+2 move container to workspace 2:II
+bindsym $super+Shift+3 move container to workspace 3:III
+bindsym $super+Shift+4 move container to workspace 4:IV
+bindsym $super+Shift+5 move container to workspace 5:V
+bindsym $super+Shift+6 move container to workspace 6:VI
+
+# restart sway inplace (Replaces i3-msg restart)
+bindsym $super+BackSpace reload
+
+# exit sway (Replaces i3-nagbar and i3-msg exit)
+bindsym $super+q exec "swaynag -t warning -m 'Really exit?' -b 'Yes' 'swaymsg exit'"
+
+# resize mode
+mode "resize" {
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
+    bindsym Return mode "default"
+}
+bindsym $super+r mode "resize"
+
+
+# window colors
+client.focused          #f6a6aa #1c262c #d6c6c6 #f6a6aa #f8c8cc
+client.focused_inactive #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.unfocused        #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.urgent           #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.placeholder      #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.background       #f2d7d8
+
+# window rules
+for_window [class="Eog|Sxiv|feh|mpv|Vlc|File-roller|Xarchiver"] floating enable
+for_window [class="Eog|Sxiv|feh|mpv|Vlc|File-roller|Xarchiver"] focus
+for_window [class=".*"] border pixel 8
+for_window [window_role="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable
+
+hide_edge_borders smart
+gaps inner 12
+smart_gaps on
+gaps top 25
+
+workspace 1 output VGA-1
+workspace 2 output LVDS-1

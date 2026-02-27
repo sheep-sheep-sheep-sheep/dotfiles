@@ -1,0 +1,170 @@
+# Visuals (SwayFX/Specific builds)
+shadows enable
+corner_radius 15
+default_dim_inactive 0.3
+
+gaps inner 12
+smart_gaps off
+gaps top 25
+gaps outer 2
+
+# set modifier keys
+set $super Mod4
+set $alt Mod1
+
+# set font
+font pango:Ionicons 9, Poppins 9
+
+output VGA-1 pos 0 0
+output LVDS-1 pos 1680 0
+# Sets all windows to 80% opacity
+for_window [class=".*"] opacity 0.8
+for_window [app_id=".*"] opacity 0.8
+# use mouse + $super to drag floating windows
+floating_modifier $super
+
+# --- Autostart Applications ---
+# Updated wallpaper to match i3 config 
+exec --no-startup-id swaybg -m fill -i ~/wp5716349.jpg 
+exec --no-startup-id pipewire
+exec --no-startup-id xrandr --output VGA-1 --primary --auto --output LVDS-1 --auto --right-of VGA-1
+exec_always --no-startup-id waybar
+exec mako
+# Auto-lock after 5 minutes, turn off displays after 10
+exec swayidle -w \
+    timeout 300 'swaylock -f -i ~/.lock.png' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f -i ~/.lock.png'
+
+# Added GVFS and Polkit from i3 config 
+exec --no-startup-id /usr/lib/gvfs/gvfsd
+exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1 &
+exec --no-startup-id gvfsd &
+
+# --- Keybinds ---
+# start a terminal
+bindsym $super+Return exec kitty
+
+# start fuzzel (kept per request) 
+bindsym $super+d exec fuzzel --icon-theme=ommox-Rose-Pine-Main
+
+bindsym $super+Shift+c reload
+
+# common apps keybinds
+bindsym Print exec grim -g "$(slurp)" ~/Pictures/$(date +%Y-%m-%d_%H-%m-%s).png
+bindsym $super+l exec swaylock \
+    --image ~/.lock.png \
+    --scaling fill \
+    --ring-color f6a6aa \
+    --key-hl-color 1c262c \
+    --text-color f2d7d8
+bindsym $super+w exec firefox
+bindsym $super+e exec kitty ranger
+
+# Added new keybinds from i3 config 
+bindsym $super+m exec kitty ncmpcpp
+bindsym $super+n exec mpv --player-operation-mode=pseudo-gui
+
+# change volume and brightness
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# kill focused window
+bindsym $super+c kill
+bindsym $alt+F4 kill
+
+# focus and move binds (standardized)
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+# layout management
+bindsym $super+h split h
+bindsym $super+v split v
+bindsym $super+s layout toggle split
+bindsym $super+f fullscreen toggle
+bindsym $super+space floating toggle
+bindsym $super+Shift+space focus mode_toggle
+
+# switch to workspace
+bindsym $super+Control+Right workspace next
+bindsym $super+Control+Left workspace prev
+bindsym $super+1 workspace 1:I
+bindsym $super+2 workspace 2:II
+bindsym $super+3 workspace 3:III
+bindsym $super+4 workspace 4:IV
+bindsym $super+5 workspace 5:V
+bindsym $super+6 workspace 6:VI
+
+# move container to workspace
+bindsym $super+Shift+1 move container to workspace 1:I
+bindsym $super+Shift+2 move container to workspace 2:II
+bindsym $super+Shift+3 move container to workspace 3:III
+bindsym $super+Shift+4 move container to workspace 4:IV
+bindsym $super+Shift+5 move container to workspace 5:V
+bindsym $super+Shift+6 move container to workspace 6:VI
+
+# restart and exit (Updated to swaynative commands)
+bindsym $super+BackSpace exec "swaymsg reload"
+bindsym $super+q exec "swaynag -t warning -m 'Really exit?' -b 'Yes' 'swaymsg exit'"
+
+# resize mode
+mode "resize" {
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
+    bindsym Return mode "default"
+}
+bindsym $super+r mode "resize"
+
+# window colors (Matched to i3 theme) [cite: 11]
+client.focused          #f6a6aa #1c262c #d6c6c6 #f6a6aa #f8c8cc
+client.focused_inactive #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.unfocused        #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.urgent           #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.placeholder      #f2d7d8 #ffb347 #d6c6c6 #f2d7d8 #f2d7d8
+client.background       #f2d7d8
+
+# 1. Floating & Focus for Media and Archive Apps
+# We use a regex for both app_id (Wayland) and class (XWayland)
+for_window [app_id="(?i)eog|sxiv|feh|mpv|vlc|file-roller|xarchiver"] floating enable, focus
+for_window [class="(?i)eog|sxiv|feh|mpv|vlc|file-roller|xarchiver"] floating enable, focus
+
+# 2. Border Styling
+# In Sway, "border pixel" is often written as "default_border"
+default_border pixel 8
+default_floating_border pixel 8
+
+# 3. Handling Dialogs and Pop-ups
+# Sway still supports window_role and window_type for XWayland apps
+for_window [window_role="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+# Wayland-specific floating for common dialog types
+for_window [app_id="thunar" title="File Operation Progress"] floating enable
+# Target the specific replacement confirmation dialog
+for_window [app_id="thunar" title="Confirm to replace files"] floating enable, sticky enable, focus
+# Gaps and Display
+
+
+workspace 1 output VGA-1
+workspace 2 output LVDS-1
+
+font pango: Courier Prime 11
+
+
+
+
+

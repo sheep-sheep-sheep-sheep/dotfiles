@@ -1,0 +1,101 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "type": "auto",
+    "source": "~/sheep.ascii", // Keep your sheep or change to "garuda" for the image look
+    "padding": {
+      "top": 2,
+      "right": 4
+    }
+  },
+  "display": {
+    "separator": " ",
+    "color": {
+      "keys": "magenta" // Adjust this to match your preferred theme color
+    }
+  },
+  "modules": [
+    // --- TITLE SECTION ---
+    {
+      "type": "title",
+      "color": {
+        "user": "red",
+        "at": "white",
+        "host": "red"
+      }
+    },
+    // --- GROUP 1: SYSTEM (Yellow/Gold) ---
+    {
+      "type": "os",
+      "key": "  OS",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "kernel",
+      "key": " ├─  Kernel",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "packages",
+      "key": " ├─ 󰏖 Packages",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "shell",
+      "key": " ├─  Shell",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "localip",
+      "key": " ├─ 󰩟 Local IP",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "uptime",
+      "key": " └─  Start Time",
+      "keyColor": "yellow"
+    },
+    "break",
+    // --- GROUP 2: DESKTOP (Blue) ---
+    {
+      "type": "de",
+      "key": "󈼼 DE",
+      "keyColor": "blue"
+    },
+    {
+      "type": "wm",
+      "key": " ├─  Window Manager",
+      "keyColor": "blue"
+    },
+    {
+      "type": "lm",
+      "key": " ├─ 󰧨 Login Manager",
+      "keyColor": "blue"
+    },
+    {
+      "type": "wmtheme",
+      "key": " ├─ 󰓸 WM Theme",
+      "keyColor": "blue"
+    },
+    {
+      "type": "theme",
+      "key": " ├─ 󰉼 Color Themes",
+      "keyColor": "blue"
+    },
+    {
+      "type": "icons",
+      "key": " ├─  System Icons",
+      "keyColor": "blue"
+    },
+    {
+      "type": "font",
+      "key": " ├─  System Fonts",
+      "keyColor": "blue"
+    },
+    {
+      "type": "terminal",
+      "key": " └─  Terminal",
+      "keyColor": "blue"
+    },
+  ]
+}

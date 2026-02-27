@@ -1,0 +1,41 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "margin-top": 5,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/weather", "cpu", "memory", "pulseaudio"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+    "clock": {
+        "interval": 60,
+        "format": "{:%a %d/%m %H:%M}", // Matches your Polybar format 
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "cpu": {
+        "format": "CPU {percentage}%",
+        "interval": 2
+    },
+    "memory": {
+        "format": "MEM {percentage}%",
+        "interval": 2
+    },
+    "pulseaudio": {
+        "format": "VOL {volume}%",
+        "format-muted": "MUTED",
+        "on-click": "pavucontrol"
+    },
+    "custom/weather": {
+        "exec": "/home/sheep/.config/polybar/scripts/weather.sh",
+        "interval": 900,
+        "format": "{text}"
+    }
+}

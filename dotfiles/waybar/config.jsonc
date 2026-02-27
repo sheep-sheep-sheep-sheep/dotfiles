@@ -1,0 +1,52 @@
+{
+    "layer": "top",
+    "position": "top",
+    "output": ["*"],
+    "height": 34,
+    "margin-top": 0, /* We handle margins in CSS now */
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 4,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/weather", "cpu", "memory", "pulseaudio"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+
+    "clock": {
+        "format": "{:%a %d/%m %H:%M}",
+        "tooltip": false
+    },
+
+    "cpu": {
+        "format": "   {usage}%",
+        "interval": 2
+    },
+
+    "memory": {
+        "format": "   {percentage}%",
+        "interval": 2
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰖁  Muted",
+        "format-icons": {
+            "default": ["󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5"
+    },
+
+    "custom/weather": {
+        "exec": "/home/sheep/.config/polybar/scripts/weather.sh",
+        "interval": 900,
+        "format": "{}"
+    }
+}

@@ -1,0 +1,61 @@
+/* 1. This is the overall 'container'. We make it transparent 
+      so the corners don't show black pixels. */
+window#waybar {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+* {
+    /* Replace the name below with your specific font */
+    font-family: "Symbols Nerd Font Mono";
+    font-size: 14px;
+
+}
+/* 2. This is the ACTUAL bar (the pill). 
+      We put your colors and border here. */
+window#waybar > box {
+    background-color: #1c262c; /* Your dark background */
+    border: 2px solid #eb6f92; /* Your Rose border */
+    border-radius: 10px;
+    margin: 5;
+    padding: 2px 8px;
+}
+
+/* --- MODULE STYLING (KEEPING YOUR COLORS) --- */
+
+#workspaces button {
+    padding: 0 5px;
+    color: #e0def4;
+}
+
+#workspaces button.focused {
+    color: #f2d7d8; /* Primary */
+    border-bottom: 2px solid #f2d7d8;
+}
+
+#workspaces button.urgent {
+    color: #f6a6aa; /* Alert */
+}
+
+#clock {
+    color: #f2d7d8;
+}
+
+#cpu {
+    color: #f2d7d8;
+    margin-right: 10px;
+}
+
+#memory {
+    color: #ffb347; 
+    margin-right: 10px;
+}
+
+#pulseaudio {
+    color: #ffb347;
+    margin-right: 5px;
+}
+
+#custom-weather {
+    color: #e0def4;
+    margin-right: 10px;
+}
